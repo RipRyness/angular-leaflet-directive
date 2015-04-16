@@ -85,6 +85,19 @@ angular.module("leaflet-directive").directive('markers',
                     addMarkerToGroup(marker, model.group, groupOptions, map);
                 }
 
+                //Wire up events
+                var events = model.events;
+                if (isDefined(events)) {
+                    if (angular.isArray(events)) {
+                        for (var i = 0; i < events.length; i++) {
+                            var evt = events[i];
+                            marker.on(evt);
+                        }
+                    } else {
+                        marker.on(events);
+                    }
+                }
+
                 // Show label if defined
                 if (Helpers.LabelPlugin.isLoaded() && isDefined(model.label) && isDefined(model.label.message)) {
                     marker.bindLabel(model.label.message, model.label.options);

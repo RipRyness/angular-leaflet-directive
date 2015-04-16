@@ -1,5 +1,5 @@
 /*!
-*  angular-leaflet-directive 0.7.13 2015-04-14
+*  angular-leaflet-directive 0.7.13 2015-04-16
 *  angular-leaflet-directive - An AngularJS directive to easily interact with Leaflet maps
 *  git: https://github.com/tombatossals/angular-leaflet-directive
 */
@@ -3656,6 +3656,19 @@ angular.module("leaflet-directive").directive('markers',
                 if (isDefined(model.group)) {
                     var groupOptions = isDefined(model.groupOption) ? model.groupOption : null;
                     addMarkerToGroup(marker, model.group, groupOptions, map);
+                }
+
+                //Wire up events
+                var events = model.events;
+                if (isDefined(events)) {
+                    if (angular.isArray(events)) {
+                        for (var i = 0; i < events.length; i++) {
+                            var evt = events[i];
+                            marker.on(evt);
+                        }
+                    } else {
+                        marker.on(events);
+                    }
                 }
 
                 // Show label if defined
